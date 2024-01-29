@@ -1,12 +1,12 @@
 package com.project.StudentManagement.services;
 
-import com.Project.StudentManagement.dto.CourseDTO;
-import com.Project.StudentManagement.dto.StudentDTO;
-import com.Project.StudentManagement.entity.Course;
-import com.Project.StudentManagement.entity.Student;
-import com.Project.StudentManagement.exceptions.ResourceNotFoundException;
-import com.Project.StudentManagement.repository.CourseRepository;
-import com.Project.StudentManagement.repository.StudentRepository;
+import com.project.StudentManagement.dto.CourseDTO;
+import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.entity.Course;
+import com.project.StudentManagement.entity.Student;
+import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.repository.CourseRepository;
+import com.project.StudentManagement.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

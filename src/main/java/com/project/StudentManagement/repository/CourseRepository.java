@@ -1,7 +1,7 @@
 package com.project.StudentManagement.repository;
 
 
-import com.Project.StudentManagement.entity.Course;
+import com.project.StudentManagement.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
