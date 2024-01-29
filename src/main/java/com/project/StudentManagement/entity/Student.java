@@ -24,15 +24,15 @@ public class Student {
     private Integer id;
 
     @Column(name="name")
-
+    @NotEmpty
     private String name;
 
     @Column(name = "academic_year")
-
+    @NotEmpty
     private String year;
 
     @Column(name="department")
-
+    @NotEmpty
     private String dept;
     //    @Column(name = "Courses")
 

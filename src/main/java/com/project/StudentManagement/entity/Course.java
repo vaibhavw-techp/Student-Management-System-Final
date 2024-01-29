@@ -24,15 +24,15 @@ public class Course {
     private Integer id;
 
     @Column(name = "title", nullable = false)
-
+    @NotEmpty
     private String title;
-
+    @NotEmpty
     @Column(name = "course_code", nullable = false)
-
+    @NotEmpty
     private double courseCode;
 
     @Column(name = "credits", nullable = false)
-
+    @NotEmpty
     private int credits;
 
     @Column(name = "fee",nullable = false)
