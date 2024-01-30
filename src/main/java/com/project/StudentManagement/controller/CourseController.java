@@ -38,6 +38,8 @@ public class CourseController {
         return courseService.getCoursesByFee(fee);
     }
 
+
+
     @PostMapping("/course")
     public CourseDTO createCourses(@RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
