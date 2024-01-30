@@ -1,12 +1,12 @@
 package com.project.StudentManagement.controller;
 
 
-import com.Project.StudentManagement.entity.Course;
-import com.Project.StudentManagement.entity.Student;
-import com.Project.StudentManagement.repository.CourseRepository;
-import com.Project.StudentManagement.repository.StudentRepository;
-import com.Project.StudentManagement.requestforpost.CourseRequest;
-import com.Project.StudentManagement.requestforpost.StudentRequest;
+import com.project.StudentManagement.entity.Course;
+import com.project.StudentManagement.entity.Student;
+import com.project.StudentManagement.repository.CourseRepository;
+import com.project.StudentManagement.repository.StudentRepository;
+import com.project.StudentManagement.requestforpost.CourseRequest;
+import com.project.StudentManagement.requestforpost.StudentRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

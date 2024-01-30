@@ -1,9 +1,9 @@
 package com.project.StudentManagement.controller;
 
-import com.Project.StudentManagement.dto.CourseDTO;
-import com.Project.StudentManagement.dto.StudentDTO;
-import com.Project.StudentManagement.exceptions.ResourceNotFoundException;
-import com.Project.StudentManagement.services.CourseService;
+import com.project.StudentManagement.dto.CourseDTO;
+import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ public class CourseController {
         return courseService.getCoursesByFee(fee);
     }
 
-    @PostMapping("/course")
+    @PostMapping("/Post/course")
     public CourseDTO createCourses(@RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }

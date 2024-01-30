@@ -1,8 +1,8 @@
 package com.project.StudentManagement.controller;
 
-import com.Project.StudentManagement.dto.StudentDTO;
-import com.Project.StudentManagement.exceptions.ResourceNotFoundException;
-import com.Project.StudentManagement.services.StudentService;
+import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class StudentController {
         return studentService.getStudentsByName(name);
     }
 
-    @PostMapping("/student")
+    @PostMapping("/Post/student")
     public StudentDTO createStudent(@Valid @RequestBody StudentDTO studentDTO) {
         return studentService.createStudent(studentDTO);
     }
