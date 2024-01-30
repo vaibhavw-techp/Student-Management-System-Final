@@ -44,7 +44,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public List<StudentDTO> createMultipleStudents(@RequestBody List<StudentDTO> studentDTOs) {
+    public List<StudentDTO> createMultipleStudents(@Valid @RequestBody List<StudentDTO> studentDTOs) {
         return studentService.createMultipleStudents(studentDTOs);
     }
     // To assign student with multiple Courses already present in database
@@ -63,7 +63,7 @@ public class StudentController {
 
     @PutMapping("/{sid}/course/{cid}")
     public ResponseEntity<StudentDTO> assignStudentToCourse(@PathVariable(value = "sid") Integer studentId,
-                                                            @PathVariable(value = "cid") Integer courseId) throws ResourceNotFoundException {
+                                                            @Valid @PathVariable(value = "cid") Integer courseId) throws ResourceNotFoundException {
         return studentService.assignStudentToCourse(studentId, courseId);
     }
 
