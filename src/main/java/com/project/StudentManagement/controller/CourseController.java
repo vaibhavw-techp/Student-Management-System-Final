@@ -37,7 +37,7 @@ public class CourseController {
     }
 
     @PostMapping("/Post/course")
-    public CourseDTO createCourses(@RequestBody CourseDTO courseDTO) {
+    public CourseDTO createCourses(@Valid @RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
 
