@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/create-student-and-course-scheme.yml
+  - include:
+      file: db/changelog/insert-data-course.yaml
+  - include:
+      file: db/changelog/insert-data-student.yaml
+  - include:
+      file: db/changelog/insert-data-student-course.yaml
+

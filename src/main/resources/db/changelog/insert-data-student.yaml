@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: vaibhav
+      changes:
+        - insert:
+            tableName: STUDENT_TBL
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: Vaibhav Waghmare
+              - column:
+                  name: academic_year
+                  value: 2024
+              - column:
+                  name: department
+                  value: Computer Science

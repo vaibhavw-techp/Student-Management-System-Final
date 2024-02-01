@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: vaibhav
+      changes:
+        - insert:
+            tableName: COURSE_TBL
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: title
+                  value: Introduction to Java
+              - column:
+                  name: course_code
+                  value: 101
+              - column:
+                  name: credits
+                  value: 3
+              - column:
+                  name: fee
+                  value: 1000.00
