@@ -4,9 +4,9 @@ import com.project.StudentManagement.dto.StudentDTO;
 import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.mapper.StudentMapper;
 import com.project.StudentManagement.repository.CourseRepository;
 import com.project.StudentManagement.repository.StudentRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,11 +26,11 @@ public class StudentService {
     private CourseRepository courseRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private StudentMapper studentMapper;
 
     public List<StudentDTO> getAllStudents() {
         List<Student> students = studentRepository.findAll();
-        return students.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return students.stream().map(studentMapper::entityToDTO).collect(Collectors.toList());
     }
 
     public StudentDTO getStudentById(Integer studentId) throws ResourceNotFoundException {
@@ -89,10 +89,10 @@ public class StudentService {
     }
 
     private StudentDTO convertToDTO(Student student) {
-        return modelMapper.map(student, StudentDTO.class);
+        return studentMapper.entityToDTO(student);
     }
 
     private Student convertToEntity(StudentDTO studentDTO) {
-        return modelMapper.map(studentDTO, Student.class);
+        return studentMapper.dtoToEntity(studentDTO);
     }
 }
