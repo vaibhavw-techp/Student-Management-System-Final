@@ -2,11 +2,13 @@ package com.project.StudentManagement.controller;
 
 import com.project.StudentManagement.dto.CourseDTO;
 import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
 import com.project.StudentManagement.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,6 +54,7 @@ public class CourseController {
         CourseDTO updatedCourse = courseService.updateCourse(courseId, courseDTO);
         return ResponseEntity.ok(updatedCourse);
     }
+
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteCourses(@PathVariable(value = "id") Integer courseId) throws ResourceNotFoundException {
