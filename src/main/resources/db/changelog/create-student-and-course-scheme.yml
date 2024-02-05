@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 5
       author: vaibhav
+
       changes:
         - createSequence:
             sequenceName: student_tbl_seq
@@ -11,6 +12,7 @@ databaseChangeLog:
             sequenceName: course_tbl_seq
             incrementBy: 1
             startValue: 101
+
         - createTable:
             tableName: STUDENT_TBL
             columns:
@@ -21,7 +23,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
+                  name: first_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
@@ -35,6 +42,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+
         - createTable:
             tableName: COURSE_TBL
             columns:
@@ -64,6 +72,7 @@ databaseChangeLog:
                   type: DOUBLE PRECISION
                   constraints:
                     nullable: false
+
         - createTable:
             tableName: student_course_table
             columns:

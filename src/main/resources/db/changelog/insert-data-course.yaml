@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 2
       author: vaibhav
+
       changes:
         - insert:
             tableName: COURSE_TBL

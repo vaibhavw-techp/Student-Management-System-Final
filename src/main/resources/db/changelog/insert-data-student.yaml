@@ -2,6 +2,7 @@ databaseChangeLog:
   - changeSet:
       id: 3
       author: vaibhav
+
       changes:
         - insert:
             tableName: STUDENT_TBL
@@ -10,8 +11,11 @@ databaseChangeLog:
                   name: id
                   value: 1
               - column:
-                  name: name
-                  value: Vaibhav Waghmare
+                  name: first_name
+                  value: Vaibhav
+              - column:
+                  name: last_name
+                  value: Waghmare
               - column:
                   name: academic_year
                   value: 2024

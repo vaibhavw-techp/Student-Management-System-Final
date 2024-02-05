@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/Courses")
+@RequestMapping("/courses")
 public class CourseController {
 
     @Autowired
@@ -33,12 +33,12 @@ public class CourseController {
         return ResponseEntity.ok().body(course);
     }
 
-    @GetMapping("/getCourse/fees/{fee}")
+    @GetMapping("/fees/{fee}")
     public List<CourseDTO> getCoursesByFees(@PathVariable double fee) {
         return courseService.getCoursesByFee(fee);
     }
 
-    @PostMapping("/Post/course")
+    @PostMapping("/course")
     public CourseDTO createCourses(@RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }

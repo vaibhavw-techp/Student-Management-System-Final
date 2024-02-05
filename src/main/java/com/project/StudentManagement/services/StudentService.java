@@ -38,10 +38,10 @@ public class StudentService {
         return convertToDTO(student);
     }
 
-    public List<StudentDTO> getStudentsByName(String name) {
-        List<Student> students = studentRepository.findByNameContaining(name);
-        return students.stream().map(this::convertToDTO).collect(Collectors.toList());
-    }
+//    public List<StudentDTO> getStudentsByName(String name) {
+//        List<Student> students = studentRepository.findByNameContaining(name);
+//        return students.stream().map(this::convertToDTO).collect(Collectors.toList());
+//    }
 
     public StudentDTO createStudent(StudentDTO studentDTO) {
         Student student = convertToEntity(studentDTO);
