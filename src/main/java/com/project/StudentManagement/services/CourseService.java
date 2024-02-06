@@ -2,12 +2,14 @@ package com.project.StudentManagement.services;
 
 import com.project.StudentManagement.dto.CourseDTO;
 import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.dto.UpdateCourseDTO;
 import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.mapper.CourseMapper;
+import com.project.StudentManagement.mapper.StudentMapper;
 import com.project.StudentManagement.repository.CourseRepository;
 import com.project.StudentManagement.repository.StudentRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,41 +29,43 @@ public class CourseService {
     private StudentRepository studentRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private CourseMapper courseMapper;
+
+    @Autowired
+    private StudentMapper studentMapper;
 
     public List<CourseDTO> getAllCourses() {
         List<Course> courses = courseRepository.findAll();
-        return courses.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return courses.stream().map(courseMapper::entityToDTO).collect(Collectors.toList());
     }
 
     public CourseDTO getCourseById(Integer courseId) throws ResourceNotFoundException {
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException(courseId));
-        return convertToDTO(course);
+        return courseMapper.entityToDTO(course);
     }
 
     public List<CourseDTO> getCoursesByFee(double fee) {
         List<Course> courses = courseRepository.findByFeeLessThan(fee);
-        return courses.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return courses.stream().map(courseMapper::entityToDTO).collect(Collectors.toList());
     }
 
     public CourseDTO createCourse(CourseDTO courseDTO) {
-        Course course = convertToEntity(courseDTO);
+        Course course = courseMapper.dtoToEntity(courseDTO);
         Course savedCourse = courseRepository.save(course);
-        return convertToDTO(savedCourse);
+        return courseMapper.entityToDTO(savedCourse);
     }
 
     public List<CourseDTO> createMultipleCourses(List<CourseDTO> courseDTOs) {
-        List<Course> courses = courseDTOs.stream().map(this::convertToEntity).collect(Collectors.toList());
+        List<Course> courses = courseDTOs.stream().map(courseMapper::dtoToEntity).collect(Collectors.toList());
         List<Course> savedCourses = courseRepository.saveAll(courses);
-        return savedCourses.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return savedCourses.stream().map(courseMapper::entityToDTO).collect(Collectors.toList());
     }
 
-    public CourseDTO updateCourse(Integer courseId, CourseDTO courseDTO) throws ResourceNotFoundException {
+    public Course  updateCourse(Integer courseId, UpdateCourseDTO updateCourseDTO) throws ResourceNotFoundException {
         Course existingCourse = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException(courseId));
-        Course updatedCourse = convertToEntity(courseDTO);
-        updatedCourse.setId(existingCourse.getId());
-        Course savedCourse = courseRepository.save(updatedCourse);
-        return convertToDTO(savedCourse);
+        courseMapper.updateCourseFromDTO(updateCourseDTO, existingCourse);
+        Course savedCourse = courseRepository.save(existingCourse);
+        return savedCourse;
     }
 
     public Map<String, Boolean> deleteCourse(Integer courseId) throws ResourceNotFoundException {
@@ -94,18 +98,6 @@ public class CourseService {
     public Set<StudentDTO> getStudentsByCourseId(Integer courseId) throws ResourceNotFoundException {
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException(courseId));
         Set<Student> students = course.getStudents();
-        return students.stream().map(this::convertStudentToDTO).collect(Collectors.toSet());
-    }
-
-    private CourseDTO convertToDTO(Course course) {
-        return modelMapper.map(course, CourseDTO.class);
-    }
-
-    private Course convertToEntity(CourseDTO courseDTO) {
-        return modelMapper.map(courseDTO, Course.class);
-    }
-
-    private StudentDTO convertStudentToDTO(Student student) {
-        return modelMapper.map(student, StudentDTO.class);
+        return students.stream().map(studentMapper::entityToDTO).collect(Collectors.toSet());
     }
 }

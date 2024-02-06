@@ -1,5 +1,6 @@
 package com.project.StudentManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -41,7 +42,7 @@ public class Course {
 
 
     @ManyToMany( fetch = FetchType.LAZY,  mappedBy = "courses")
-//    @JsonBackReference
+    @JsonBackReference
     private Set<Student> students = new HashSet<>(); // Initialize the set
 
 }

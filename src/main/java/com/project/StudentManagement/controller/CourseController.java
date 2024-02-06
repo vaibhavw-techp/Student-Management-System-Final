@@ -2,6 +2,8 @@ package com.project.StudentManagement.controller;
 
 import com.project.StudentManagement.dto.CourseDTO;
 import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.dto.UpdateCourseDTO;
+import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
 import com.project.StudentManagement.services.CourseService;
 import jakarta.validation.Valid;
@@ -47,11 +49,12 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CourseDTO> updateCourses(@PathVariable(value = "id") Integer courseId,
-                                                   @Valid @RequestBody CourseDTO courseDTO) throws ResourceNotFoundException {
-        CourseDTO updatedCourse = courseService.updateCourse(courseId, courseDTO);
+    public ResponseEntity<Course> updateCourses(@PathVariable(value = "id") Integer courseId,
+                                                   @Valid @RequestBody UpdateCourseDTO updateCourseDTO) throws ResourceNotFoundException {
+        Course updatedCourse = courseService.updateCourse(courseId, updateCourseDTO);
         return ResponseEntity.ok(updatedCourse);
     }
+
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteCourses(@PathVariable(value = "id") Integer courseId) throws ResourceNotFoundException {
