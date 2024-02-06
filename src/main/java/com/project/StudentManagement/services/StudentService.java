@@ -1,12 +1,14 @@
 package com.project.StudentManagement.services;
 
 import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.dto.UpdateStudentDTO;
 import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
 import com.project.StudentManagement.mapper.StudentMapper;
 import com.project.StudentManagement.repository.CourseRepository;
 import com.project.StudentManagement.repository.StudentRepository;
+import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -65,12 +67,16 @@ public class StudentService {
         return ResponseEntity.ok(convertToDTO(savedStudent));
     }
 
-    public ResponseEntity<StudentDTO> updateStudent(Integer studentId, StudentDTO studentDTO) throws ResourceNotFoundException {
+    public ResponseEntity<Student> updateStudent(Integer studentId, UpdateStudentDTO updateStudentDTO) throws ResourceNotFoundException {
         Student existingStudent = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
-        Student updatedStudent = convertToEntity(studentDTO);
-        updatedStudent.setId(existingStudent.getId());
-        Student savedStudent = studentRepository.save(updatedStudent);
-        return ResponseEntity.ok(convertToDTO(savedStudent));
+//        Student updatedStudent = convertToEntity(studentDTO);
+//        updatedStudent.setId(existingStudent.getId());
+//        Student savedStudent = studentRepository.save(updatedStudent);
+//        return ResponseEntity.ok(convertToDTO(savedStudent));
+
+        studentMapper.updateStudentFromDTO(updateStudentDTO, existingStudent);
+        Student savedStudent = studentRepository.save(existingStudent);
+        return ResponseEntity.ok(savedStudent);
     }
 
     public Map<String, Boolean> deleteStudent(Integer studentId) throws ResourceNotFoundException {

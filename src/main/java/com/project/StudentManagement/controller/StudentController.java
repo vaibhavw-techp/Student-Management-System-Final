@@ -1,6 +1,8 @@
 package com.project.StudentManagement.controller;
 
 import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.dto.UpdateStudentDTO;
+import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
 import com.project.StudentManagement.services.StudentService;
 import jakarta.validation.Valid;
@@ -52,9 +54,9 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDTO> updateStudent(@PathVariable(value = "id") Integer studentId,
-                                                    @Validated @RequestBody StudentDTO studentDTO) throws ResourceNotFoundException {
-        return studentService.updateStudent(studentId, studentDTO);
+    public ResponseEntity<Student> updateStudent(@PathVariable(value = "id") Integer studentId,
+                                                 @Validated @RequestBody UpdateStudentDTO updateStudentDTO) throws ResourceNotFoundException {
+        return studentService.updateStudent(studentId, updateStudentDTO);
     }
 
     @DeleteMapping("/{id}")

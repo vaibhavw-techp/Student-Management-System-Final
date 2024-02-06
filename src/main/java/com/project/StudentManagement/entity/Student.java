@@ -38,7 +38,7 @@ public class Student {
     private String lastName;
 
     @Column(name = "academic_year")
-    @NotNull
+//    @NotNull
     private String year;
 
     @Column(name="department")
