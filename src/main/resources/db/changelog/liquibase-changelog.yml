@@ -1,5 +1,6 @@
 databaseChangeLog:
   - include:
+<<<<<<< HEAD
       file: db/changelog/create-student-and-course-scheme.yml
   - include:
       file: db/changelog/insert-data-course.yaml
@@ -7,4 +8,13 @@ databaseChangeLog:
       file: db/changelog/insert-data-student.yaml
   - include:
       file: db/changelog/insert-data-student-course.yaml
+=======
+      file: db/changelog/create-student-and-course-schema.xml
+  - include:
+      file: db/changelog/insert-data-course.xml
+  - include:
+      file: db/changelog/insert-data-student.xml
+  - include:
+      file: db/changelog/insert-data-student-course.xml
+>>>>>>> 92a17b9 (Made changes in Pom.xml)
 
