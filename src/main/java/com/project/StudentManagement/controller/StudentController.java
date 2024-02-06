@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/Students")
 public class StudentController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/GetStudent/{id}")
     public ResponseEntity<StudentDTO> getById(@PathVariable(value = "id") Integer studentId) throws ResourceNotFoundException {
         StudentDTO student = studentService.getStudentById(studentId);
         return ResponseEntity.ok().body(student);
@@ -35,7 +35,7 @@ public class StudentController {
         return studentService.getStudentsByName(name);
     }
 
-    @PostMapping("/student")
+    @PostMapping("/Post/student")
     public StudentDTO createStudent(@Valid @RequestBody StudentDTO studentDTO) {
         return studentService.createStudent(studentDTO);
     }
