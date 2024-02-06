@@ -1,5 +1,6 @@
 package com.project.StudentManagement.services;
 
+import com.project.StudentManagement.dto.CourseDTO;
 import com.project.StudentManagement.dto.StudentDTO;
 import com.project.StudentManagement.dto.UpdateStudentDTO;
 import com.project.StudentManagement.entity.Course;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +67,25 @@ public class StudentService {
         courseRepository.save(course);
         Student savedStudent = studentRepository.save(student);
         return ResponseEntity.ok(convertToDTO(savedStudent));
+    }
+
+    // Assign Courses to Particular Student
+    public void assignCoursesToStudent(Integer studentId, List<Integer> courseIds) throws ResourceNotFoundException {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
+
+        List<Course> validCourses = new ArrayList<>();
+
+        for (Integer courseId : courseIds) {
+            Course course = courseRepository.findById(courseId)
+                    .orElseThrow(() -> {
+                        return new ResourceNotFoundException(courseId);
+                    });
+            validCourses.add(course);
+        }
+
+        student.getCourses().addAll(validCourses);
+
+        studentRepository.save(student);
     }
 
     public ResponseEntity<Student> updateStudent(Integer studentId, UpdateStudentDTO updateStudentDTO) throws ResourceNotFoundException {
