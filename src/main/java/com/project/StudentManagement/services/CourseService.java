@@ -2,6 +2,7 @@ package com.project.StudentManagement.services;
 
 import com.project.StudentManagement.dto.CourseDTO;
 import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.dto.UpdateCourseDTO;
 import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import com.project.StudentManagement.mapper.StudentMapper;
 import com.project.StudentManagement.repository.CourseRepository;
 import com.project.StudentManagement.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -60,12 +62,11 @@ public class CourseService {
         return savedCourses.stream().map(courseMapper::entityToDTO).collect(Collectors.toList());
     }
 
-    public CourseDTO updateCourse(Integer courseId, CourseDTO courseDTO) throws ResourceNotFoundException {
+    public Course  updateCourse(Integer courseId, UpdateCourseDTO updateCourseDTO) throws ResourceNotFoundException {
         Course existingCourse = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException(courseId));
-        Course updatedCourse = courseMapper.dtoToEntity(courseDTO);
-        updatedCourse.setId(existingCourse.getId());
-        Course savedCourse = courseRepository.save(updatedCourse);
-        return courseMapper.entityToDTO(savedCourse);
+        courseMapper.updateCourseFromDTO(updateCourseDTO, existingCourse);
+        Course savedCourse = courseRepository.save(existingCourse);
+        return savedCourse;
     }
 
     public Map<String, Boolean> deleteCourse(Integer courseId) throws ResourceNotFoundException {

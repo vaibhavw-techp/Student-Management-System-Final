@@ -24,7 +24,6 @@ public class UpdateStudentDTO
     private String year;
     private String dept;
 
-//    private Set<CourseDTO> courses;
-
+    private Set<CourseDTO> courses;
 
 }
