@@ -1,13 +1,9 @@
 package com.project.StudentManagement.dto;
 
-<<<<<<< HEAD
 import com.project.StudentManagement.requestforpost.CourseRequest;
 import com.project.StudentManagement.dto.CourseDTO;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-=======
-import jakarta.validation.constraints.NotEmpty;
->>>>>>> e0d1085 (Validations added in DTOs)
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
