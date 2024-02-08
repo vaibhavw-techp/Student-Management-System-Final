@@ -26,9 +26,6 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
-    @Autowired
-    private AddressRepository addressRepository;
-
     @GetMapping
     public List<StudentDTO> getAllStudents() {
         return studentService.getAllStudents();
