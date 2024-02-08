@@ -4,6 +4,7 @@ import com.project.StudentManagement.dto.StudentDTO;
 import com.project.StudentManagement.dto.UpdateStudentDTO;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.repository.StudentRepository;
 import com.project.StudentManagement.services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,12 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @GetMapping
     public List<StudentDTO> getAllStudents() {
@@ -72,6 +79,7 @@ public class StudentController {
                                                  @Validated @RequestBody UpdateStudentDTO updateStudentDTO) throws ResourceNotFoundException {
         return studentService.updateStudent(studentId, updateStudentDTO);
     }
+
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteStudent(@PathVariable(value = "id") Integer studentId) throws ResourceNotFoundException {

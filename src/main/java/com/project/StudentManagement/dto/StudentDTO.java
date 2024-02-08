@@ -26,6 +26,4 @@ public class StudentDTO {
     private int totalCourses;
 
     private Set<CourseDTO> courses;
-
-
 }

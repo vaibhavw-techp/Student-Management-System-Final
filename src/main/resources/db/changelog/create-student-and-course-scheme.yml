@@ -86,3 +86,22 @@ databaseChangeLog:
                   type: INTEGER
                   constraints:
                     nullable: false
+#
+#        - createTable:
+#            tableName: ADDRESS_TBL
+#            columns:
+#              - column:
+#                  name: id
+#                  type: INTEGER
+#                  autoIncrement: true
+#                  constraints:
+#                    primaryKey: true
+#              - column:
+#                  name: locality
+#                  type: VARCHAR(255)
+#              - column:
+#                  name: city
+#                  type: VARCHAR(255)
+#              - column:
+#                  name: pincode
+#                  type: INTEGER
