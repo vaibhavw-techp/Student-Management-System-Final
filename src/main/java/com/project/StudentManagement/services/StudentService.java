@@ -1,12 +1,16 @@
 package com.project.StudentManagement.services;
 
+import com.project.StudentManagement.dto.AddressDTO;
 import com.project.StudentManagement.dto.CourseDTO;
 import com.project.StudentManagement.dto.StudentDTO;
 import com.project.StudentManagement.dto.UpdateStudentDTO;
+import com.project.StudentManagement.entity.Address;
 import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.mapper.AddressMapper;
 import com.project.StudentManagement.mapper.StudentMapper;
+import com.project.StudentManagement.repository.AddressRepository;
 import com.project.StudentManagement.repository.CourseRepository;
 import com.project.StudentManagement.repository.StudentRepository;
 import org.mapstruct.MappingTarget;
@@ -14,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +32,12 @@ public class StudentService {
 
     @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private AddressMapper addressMapper;
 
     public List<StudentDTO> getAllStudents() {
         List<Student> students = studentRepository.findAll();
@@ -113,6 +120,48 @@ public class StudentService {
         Map<String, Boolean> response = new HashMap<>();
         response.put("All Students records deleted", Boolean.TRUE);
         return response;
+    }
+
+    public ResponseEntity<?> AssignAddressesToStudentService(Integer studentId, List<AddressDTO> addresses, Student student)
+            throws ResourceNotFoundException{
+        List<Address> temp_list = new ArrayList<>();
+        List<Address> Temp_Addresses = addressRepository.findByStudentId(studentId);
+
+
+        for(int i=0;i<addresses.size();i++)
+        {
+            AddressDTO address = addresses.get(i);
+
+            if(address.getId() == null){
+                temp_list.add(addressMapper.dtoToEntity(address));
+            }
+            else{
+                boolean checkIfPresent = false;
+                Address existingAddress = null;
+
+                for(int j=0;j<Temp_Addresses.size();j++){
+                    if(Temp_Addresses.get(j).getId() == address.getId()){
+                        existingAddress = addressRepository.findById(address.getId()).orElseThrow(() -> new ResourceNotFoundException(studentId));;
+                        checkIfPresent = true;
+                    }
+                }
+                if(checkIfPresent == true){
+                    addressMapper.updateAddressFromDTO(address, existingAddress);
+                    temp_list.add(existingAddress);
+                }
+                else{
+                    return ResponseEntity.badRequest().body("Address ID " + address.getId() + " does not exist for the student");
+                }
+            }
+        }
+
+        for (Address address : temp_list) {
+            address.setStudent(student);
+        }
+
+        addressRepository.saveAll(temp_list);
+
+        return ResponseEntity.ok(addresses);
     }
 
     private StudentDTO convertToDTO(Student student) {

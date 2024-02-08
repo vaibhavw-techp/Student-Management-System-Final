@@ -1,9 +1,13 @@
 package com.project.StudentManagement.controller;
 
+import com.project.StudentManagement.dto.AddressDTO;
 import com.project.StudentManagement.dto.StudentDTO;
 import com.project.StudentManagement.dto.UpdateStudentDTO;
+import com.project.StudentManagement.entity.Address;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.mapper.AddressMapper;
+import com.project.StudentManagement.repository.AddressRepository;
 import com.project.StudentManagement.repository.StudentRepository;
 import com.project.StudentManagement.services.StudentService;
 import jakarta.validation.Valid;
@@ -13,8 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/students")
@@ -25,6 +31,12 @@ public class StudentController {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private AddressMapper addressMapper;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @GetMapping
     public List<StudentDTO> getAllStudents() {
@@ -63,6 +75,15 @@ public class StudentController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+
+    @PutMapping("/{studentId}/addresses")
+    public ResponseEntity<?> AssignAddressesToStudent(
+            @PathVariable("studentId") Integer studentId,
+            @RequestBody List<AddressDTO> addresses) throws ResourceNotFoundException {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
+
+        return studentService.AssignAddressesToStudentService(studentId,addresses,student);
     }
 
     @PutMapping("/{sid}/course/{cid}")
