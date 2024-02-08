@@ -17,7 +17,7 @@ public class Address {
     private Integer id;
     private String locality;
     private String city;
-    private Integer pincode;
+    private Long pincode;
 
     @ManyToOne
     //@JoinColumn(name = "student_id", referencedColumnName = "id")

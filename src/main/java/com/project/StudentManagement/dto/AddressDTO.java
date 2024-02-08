@@ -13,5 +13,5 @@ public class AddressDTO {
     private Integer id;
     private String locality;
     private String city;
-    private Integer pincode;
+    private Long pincode;
 }
