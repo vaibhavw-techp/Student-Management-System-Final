@@ -1,5 +1,6 @@
 package com.project.StudentManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,13 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull
     private String locality;
     private String city;
     private Integer pincode;
 
     @ManyToOne
-    //@JoinColumn(name = "student_id", referencedColumnName = "id")
+    @JsonBackReference
+    @JoinColumn(name = "student_id")
     private Student student;
 
 }

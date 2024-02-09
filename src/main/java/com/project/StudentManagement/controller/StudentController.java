@@ -77,15 +77,6 @@ public class StudentController {
         }
     }
 
-    @PutMapping("/{studentId}/addresses")
-    public ResponseEntity<?> AssignAddressesToStudent(
-            @PathVariable("studentId") Integer studentId,
-            @RequestBody List<AddressDTO> addresses) throws ResourceNotFoundException {
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
-
-        return studentService.AssignAddressesToStudentService(studentId,addresses,student);
-    }
-
     @PutMapping("/{sid}/course/{cid}")
     public ResponseEntity<StudentDTO> assignStudentToCourse(@PathVariable(value = "sid") Integer studentId,
                                                             @PathVariable(value = "cid") Integer courseId) throws ResourceNotFoundException {
@@ -108,4 +99,14 @@ public class StudentController {
     public Map<String, Boolean> deleteAllStudents() {
         return studentService.deleteAllStudents();
     }
+
+    @PutMapping("/{studentId}/addresses")
+    public ResponseEntity<?> AssignAddressesToStudent(
+            @PathVariable("studentId") Integer studentId,
+            @RequestBody List<AddressDTO> addresses) throws ResourceNotFoundException {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
+
+        return studentService.AssignAddressesToStudentService(studentId,addresses,student);
+    }
+
 }

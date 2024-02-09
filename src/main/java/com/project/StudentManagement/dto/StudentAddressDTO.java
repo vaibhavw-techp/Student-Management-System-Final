@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentAddressDTO {
-    private Integer id;
     private String firstName;
     private String lastName;
     List<AddressDTO> addresses;

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -49,9 +50,8 @@ public class Student {
             })
     private Set<Course> courses;
 
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = Address.class, mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Address> addresses;
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Address> addresses = new ArrayList<>();
 //    @JsonManagedReference
 
 
