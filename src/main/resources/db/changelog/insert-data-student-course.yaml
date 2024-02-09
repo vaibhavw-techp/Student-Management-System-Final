@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: vaibhav
+      changes:
+        - insert:
+            tableName: student_course_table
+            columns:
+              - column:
+                  name: student_id
+                  value: 1
+              - column:
+                  name: course_id
+                  value: 1
