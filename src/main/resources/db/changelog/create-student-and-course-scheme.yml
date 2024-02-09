@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: vaibhav
+
+      changes:
+        - createSequence:
+            sequenceName: student_tbl_seq
+            incrementBy: 1
+            startValue: 1
+        - createSequence:
+            sequenceName: course_tbl_seq
+            incrementBy: 1
+            startValue: 101
+
+        - createTable:
+            tableName: STUDENT_TBL
+            columns:
+              - column:
+                  name: id
+                  type: INTEGER
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: academic_year
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: department
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: COURSE_TBL
+            columns:
+              - column:
+                  name: id
+                  type: INTEGER
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: course_code
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: false
+              - column:
+                  name: credits
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: fee
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: student_course_table
+            columns:
+              - column:
+                  name: student_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: course_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false

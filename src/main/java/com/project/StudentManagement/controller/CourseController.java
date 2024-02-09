@@ -2,11 +2,13 @@ package com.project.StudentManagement.controller;
 
 import com.project.StudentManagement.dto.CourseDTO;
 import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
 import com.project.StudentManagement.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/Courses")
+@RequestMapping("/courses")
 public class CourseController {
 
     @Autowired
@@ -31,12 +33,12 @@ public class CourseController {
         return ResponseEntity.ok().body(course);
     }
 
-    @GetMapping("/getCourse/fees/{fee}")
+    @GetMapping("/fees/{fee}")
     public List<CourseDTO> getCoursesByFees(@PathVariable double fee) {
         return courseService.getCoursesByFee(fee);
     }
 
-    @PostMapping("/Post/course")
+    @PostMapping("/course")
     public CourseDTO createCourses(@RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
@@ -52,6 +54,7 @@ public class CourseController {
         CourseDTO updatedCourse = courseService.updateCourse(courseId, courseDTO);
         return ResponseEntity.ok(updatedCourse);
     }
+
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteCourses(@PathVariable(value = "id") Integer courseId) throws ResourceNotFoundException {
