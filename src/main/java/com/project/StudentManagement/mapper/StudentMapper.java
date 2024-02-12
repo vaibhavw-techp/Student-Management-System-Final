@@ -1,5 +1,6 @@
 package com.project.StudentManagement.mapper;
 
+import com.project.StudentManagement.dto.StudentAddressDTO;
 import com.project.StudentManagement.dto.StudentDTO;
 import com.project.StudentManagement.dto.UpdateStudentDTO;
 import com.project.StudentManagement.entity.Student;
@@ -18,6 +19,14 @@ public interface StudentMapper {
     @Mapping(target = "year", defaultExpression = "java(student.getYear())")
     @Mapping(target = "dept", source = "updateStudentDTO.dept")
     void updateStudentFromDTO(UpdateStudentDTO updateStudentDTO, @MappingTarget Student student);
+
+    @Mapping(target = "firstName", source = "studentAddressDTO.fullName", qualifiedByName = "extractFirstName", defaultExpression = "java(student.getFirstName())")
+    @Mapping(target = "lastName", source = "studentAddressDTO.fullName", qualifiedByName = "extractLastName", defaultExpression = "java(student.getLastName())")
+    @Mapping(target = "year", defaultExpression = "java(student.getYear())")
+    @Mapping(target = "dept", source = "studentAddressDTO.dept")
+    void updateStudentFromStudentAddressDTO(StudentAddressDTO studentAddressDTO, @MappingTarget Student student);
+
+
 
     @Named("extractFirstName")
     default String extractFirstName(String fullName) {
