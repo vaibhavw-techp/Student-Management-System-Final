@@ -2,6 +2,7 @@ package com.project.StudentManagement.services;
 
 import com.project.StudentManagement.dto.AddressDTO;
 import com.project.StudentManagement.dto.StudentAddressDTO;
+import com.project.StudentManagement.dto.UpdateStudentAddressDTO;
 import com.project.StudentManagement.entity.Address;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
@@ -36,7 +37,8 @@ public class AddressService {
         List<Address> Temp_Addresses = addressRepository.findByStudentId(studentId);
 
 
-        studentMapper.updateStudentFromStudentAddressDTO(studentAddressDTO,student);
+        UpdateStudentAddressDTO updateStudentAddressDTO = studentMapper.StudentAddressDtoToUpdateStudentDto(studentAddressDTO);
+        studentMapper.updateStudentFromStudentAddressDTO(updateStudentAddressDTO,student);
 //        studentRepository.save(student);
 
         List<AddressDTO> addressDTOList = studentAddressDTO.getAddresses();

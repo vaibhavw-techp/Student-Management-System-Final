@@ -1,6 +1,5 @@
 package com.project.StudentManagement.controller;
 
-import com.project.StudentManagement.dto.AddressDTO;
 import com.project.StudentManagement.dto.StudentAddressDTO;
 import com.project.StudentManagement.entity.Address;
 import com.project.StudentManagement.entity.Student;
