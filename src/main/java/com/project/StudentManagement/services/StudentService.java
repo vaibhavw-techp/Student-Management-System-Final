@@ -122,53 +122,6 @@ public class StudentService {
         return response;
     }
 
-    public ResponseEntity<?> AssignAddressesToStudentService(Integer studentId, List<AddressDTO> addresses, Student student)
-            throws ResourceNotFoundException{
-        List<Address> temp_list = new ArrayList<>();
-        List<Address> Temp_Addresses = addressRepository.findByStudentId(studentId);
-
-
-        for(int i=0;i<addresses.size();i++)
-        {
-            AddressDTO address = addresses.get(i);
-
-            // If Address ID is null then, it will create New Address
-            if(address.getId() == null){
-                temp_list.add(addressMapper.dtoToEntity(address));
-            }
-            else{
-                boolean checkIfPresent = false;
-                Address existingAddress = null;
-
-                //
-                for(int j=0;j<Temp_Addresses.size();j++){
-
-                    if(Temp_Addresses.get(j).getId() == address.getId()){
-                        existingAddress = addressRepository.findById(address.getId()).orElseThrow(() -> new ResourceNotFoundException(studentId));;
-                        checkIfPresent = true;
-                    }
-                }
-                // If Address ID is already present, then Update
-                if(checkIfPresent == true){
-                    addressMapper.updateAddressFromDTO(address, existingAddress);
-                    temp_list.add(existingAddress);
-                }
-                // If Address is already present, but not matching with the existing AddressIDs, hence it will throw an error
-                else{
-                    return ResponseEntity.badRequest().body("Address ID " + address.getId() + " does not exist for the student");
-                }
-            }
-        }
-        for (Address address : temp_list) {
-            address.setStudent(student);
-        }
-
-        student.getAddresses().addAll(temp_list);
-
-        List<Address> ret = addressRepository.saveAll(temp_list);
-
-        return ResponseEntity.ok(ret);
-    }
 
     private StudentDTO convertToDTO(Student student) {
         return studentMapper.entityToDTO(student);

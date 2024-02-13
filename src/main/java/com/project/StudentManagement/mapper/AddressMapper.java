@@ -16,8 +16,8 @@ public interface AddressMapper {
     AddressDTO entityToDTO(Address address);
 
     @Mapping(target = "address.id", source = "id")
-    @Mapping(target = "locality", defaultExpression = "java(address.getLocality())")
-    @Mapping(target = "city", defaultExpression = "java(address.getCity())")
+//    @Mapping(target = "locality", defaultExpression = "java(address.getLocality())")
+//    @Mapping(target = "city", defaultExpression = "java(address.getCity())")
     void updateAddressFromDTO(AddressDTO addressDTO, @MappingTarget Address address);
 
     Address dtoToEntity(AddressDTO addressDTO);

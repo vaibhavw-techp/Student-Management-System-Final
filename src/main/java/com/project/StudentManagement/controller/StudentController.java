@@ -1,6 +1,7 @@
 package com.project.StudentManagement.controller;
 
 import com.project.StudentManagement.dto.AddressDTO;
+import com.project.StudentManagement.dto.StudentAddressDTO;
 import com.project.StudentManagement.dto.StudentDTO;
 import com.project.StudentManagement.dto.UpdateStudentDTO;
 import com.project.StudentManagement.entity.Address;
@@ -9,6 +10,7 @@ import com.project.StudentManagement.exceptions.ResourceNotFoundException;
 import com.project.StudentManagement.mapper.AddressMapper;
 import com.project.StudentManagement.repository.AddressRepository;
 import com.project.StudentManagement.repository.StudentRepository;
+import com.project.StudentManagement.services.AddressService;
 import com.project.StudentManagement.services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class StudentController {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private AddressService addressService;
 
     @GetMapping
     public List<StudentDTO> getAllStudents() {
@@ -100,13 +105,22 @@ public class StudentController {
         return studentService.deleteAllStudents();
     }
 
-    @PutMapping("/{studentId}/addresses")
+//    @PutMapping("/{studentId}/addresses")
+//    public ResponseEntity<?> AssignAddressesToStudent(
+//            @PathVariable("studentId") Integer studentId,
+//            @RequestBody List<AddressDTO> addresses) throws ResourceNotFoundException {
+//        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
+//
+//        return studentService.AssignAddressesToStudentService(studentId,addresses,student);
+//    }
+
+    @PostMapping("/{studentId}/addresses")
     public ResponseEntity<?> AssignAddressesToStudent(
             @PathVariable("studentId") Integer studentId,
-            @RequestBody List<AddressDTO> addresses) throws ResourceNotFoundException {
+            @RequestBody StudentAddressDTO studentAddressDTO) throws ResourceNotFoundException {
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
 
-        return studentService.AssignAddressesToStudentService(studentId,addresses,student);
+        return addressService.AssignAddressesToAddressService(studentId,studentAddressDTO,student);
     }
 
 }

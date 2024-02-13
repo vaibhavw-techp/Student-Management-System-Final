@@ -22,6 +22,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq")
     @SequenceGenerator(name = "student_seq", sequenceName = "student_tbl_seq", allocationSize = 1)
+    @NotNull
     private Integer id;
 
 //    @Column(name="name")

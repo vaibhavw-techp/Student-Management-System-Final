@@ -33,8 +33,8 @@ public class AddressService {
     private StudentMapper studentMapper;
 
     public ResponseEntity<?> AssignAddressesToAddressService(Integer studentId, StudentAddressDTO studentAddressDTO, Student student) throws ResourceNotFoundException {
-        List<Address> temp_list = new ArrayList<>();
-        List<Address> Temp_Addresses = addressRepository.findByStudentId(studentId);
+        List<Address> tempList = new ArrayList<>();
+        List<Address> tempAddresses = addressRepository.findByStudentId(studentId);
 
 
         UpdateStudentAddressDTO updateStudentAddressDTO = studentMapper.StudentAddressDtoToUpdateStudentDto(studentAddressDTO);
@@ -46,13 +46,13 @@ public class AddressService {
 
         for (AddressDTO addressDTO : addressDTOList) {
             if (addressDTO.getId() == null) {
-                temp_list.add(addressMapper.dtoToEntity(addressDTO));
+                tempList.add(addressMapper.dtoToEntity(addressDTO));
             } else {
                 boolean checkIfPresent = false;
                 Address existingAddress = null;
 
                 // Check if the Address ID exists for the given student
-                for (Address tempAddress : Temp_Addresses) {
+                for (Address tempAddress : tempAddresses) {
                     if (tempAddress.getId().equals(addressDTO.getId())) {
                         existingAddress = addressRepository.findById(addressDTO.getId())
                                 .orElseThrow(() -> new ResourceNotFoundException(addressDTO.getId()));
@@ -64,7 +64,7 @@ public class AddressService {
                 // If Address ID is already present, then Update
                 if (checkIfPresent) {
                     addressMapper.updateAddressFromDTO(addressDTO, existingAddress);
-                    temp_list.add(existingAddress);
+                    tempList.add(existingAddress);
                 } else {
                     return ResponseEntity.badRequest()
                             .body("Address ID " + addressDTO.getId() + " does not exist for the student");
@@ -73,17 +73,17 @@ public class AddressService {
         }
 
         // Associate addresses with the student
-        for (Address address : temp_list) {
-            address.setStudent(student);
-        }
+//        for (Address address : tempList) {
+//            address.setStudent(student);
+//        }
 
         // Add addresses to the student's list of addresses
-        student.getAddresses().addAll(temp_list);
+        student.getAddresses().addAll(tempList);
 
         // Save the student entity along with the addresses
         studentRepository.save(student);
 
-        return ResponseEntity.ok(temp_list);
+        return ResponseEntity.ok(tempList);
     }
 
 }
