@@ -11,14 +11,19 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = CourseMapper.class)
 public interface AddressMapper {
     AddressDTO entityToDTO(Address address);
 
-    @Mapping(target = "address.id", source = "id")
-//    @Mapping(target = "locality", defaultExpression = "java(address.getLocality())")
-//    @Mapping(target = "city", defaultExpression = "java(address.getCity())")
+//    @Mapping(target = "address.id", source = "id")
+    @Mapping(target = "address.id", source = "addressDTO.id")
+    @Mapping(target = "address.locality", source = "addressDTO.locality")
+    @Mapping(target = "address.city", source = "addressDTO.city")
+    @Mapping(target = "address.pincode", source = "addressDTO.pincode")
     void updateAddressFromDTO(AddressDTO addressDTO, @MappingTarget Address address);
 
+    List<Address> getEntityList(List<AddressDTO> addressesDTOS);
     Address dtoToEntity(AddressDTO addressDTO);
 }

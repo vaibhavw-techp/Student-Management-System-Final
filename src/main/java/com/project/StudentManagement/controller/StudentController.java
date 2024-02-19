@@ -115,12 +115,12 @@ public class StudentController {
 //    }
 
     @PostMapping("/{studentId}/addresses")
-    public ResponseEntity<?> AssignAddressesToStudent(
+    public StudentAddressDTO AssignAddressesToStudent(
             @PathVariable("studentId") Integer studentId,
             @RequestBody StudentAddressDTO studentAddressDTO) throws ResourceNotFoundException {
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
 
-        return addressService.AssignAddressesToAddressService(studentId,studentAddressDTO,student);
+        return studentService.updateStudentWithAddress(studentId,studentAddressDTO);
     }
 
 }

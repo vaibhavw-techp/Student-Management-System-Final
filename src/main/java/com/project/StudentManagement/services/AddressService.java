@@ -35,6 +35,7 @@ public class AddressService {
     public ResponseEntity<?> AssignAddressesToAddressService(Integer studentId, StudentAddressDTO studentAddressDTO, Student student) throws ResourceNotFoundException {
         List<Address> tempList = new ArrayList<>();
         List<Address> tempAddresses = addressRepository.findByStudentId(studentId);
+//        List<Address> tempAddresses = student.getAddresses();
 
 
         UpdateStudentAddressDTO updateStudentAddressDTO = studentMapper.StudentAddressDtoToUpdateStudentDto(studentAddressDTO);
@@ -72,10 +73,10 @@ public class AddressService {
             }
         }
 
-        // Associate addresses with the student
-//        for (Address address : tempList) {
-//            address.setStudent(student);
-//        }
+         // Associate addresses with the student
+        for (Address address : tempList) {
+            address.setStudent(student);
+        }
 
         // Add addresses to the student's list of addresses
         student.getAddresses().addAll(tempList);

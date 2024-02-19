@@ -1,9 +1,6 @@
 package com.project.StudentManagement.services;
 
-import com.project.StudentManagement.dto.AddressDTO;
-import com.project.StudentManagement.dto.CourseDTO;
-import com.project.StudentManagement.dto.StudentDTO;
-import com.project.StudentManagement.dto.UpdateStudentDTO;
+import com.project.StudentManagement.dto.*;
 import com.project.StudentManagement.entity.Address;
 import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.entity.Student;
@@ -120,6 +117,38 @@ public class StudentService {
         Map<String, Boolean> response = new HashMap<>();
         response.put("All Students records deleted", Boolean.TRUE);
         return response;
+    }
+
+
+    // Address Related Services:
+    public StudentAddressDTO updateStudentWithAddress(Integer id, StudentAddressDTO studentAddressDTO) throws ResourceNotFoundException{
+
+        Student student = studentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(id));
+        List<Address> addressList = addressMapper.getEntityList(studentAddressDTO.getAddresses());
+        int flag = 0;
+
+        if(addressList != null){
+            for(Address address: addressList){
+                flag = 0;
+
+                for(Address address1 : student.getAddresses()){
+                    if(address1.getId().equals(address.getId())){
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(address.getId() != null && flag == 0){
+                    Integer errorId = address.getId();
+                    throw new ResourceNotFoundException(errorId); // For NNNNNNNNNNNNNNNNNNNNNNOOOOOOOOOOOOOOOOOOOOOWWWWWWWWWWWWWWWWW
+                }
+            }
+        }
+
+        studentMapper.updateStudentData(studentAddressDTO, student);
+        Student studentReturn = studentRepository.save(student);
+        StudentAddressDTO temp  = new StudentAddressDTO();
+        studentMapper.convertEntityToStudentAddressDTO(temp, studentReturn);
+        return temp;
     }
 
 
