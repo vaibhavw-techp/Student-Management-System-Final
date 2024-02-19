@@ -1,19 +1,21 @@
 package com.project.StudentManagement.services;
 
-import com.project.StudentManagement.dto.StudentDTO;
+import com.project.StudentManagement.dto.*;
+import com.project.StudentManagement.entity.Address;
 import com.project.StudentManagement.entity.Course;
 import com.project.StudentManagement.entity.Student;
 import com.project.StudentManagement.exceptions.ResourceNotFoundException;
+import com.project.StudentManagement.mapper.AddressMapper;
 import com.project.StudentManagement.mapper.StudentMapper;
+import com.project.StudentManagement.repository.AddressRepository;
 import com.project.StudentManagement.repository.CourseRepository;
 import com.project.StudentManagement.repository.StudentRepository;
+import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,12 @@ public class StudentService {
 
     @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private AddressMapper addressMapper;
 
     public List<StudentDTO> getAllStudents() {
         List<Student> students = studentRepository.findAll();
@@ -65,12 +73,35 @@ public class StudentService {
         return ResponseEntity.ok(convertToDTO(savedStudent));
     }
 
-    public ResponseEntity<StudentDTO> updateStudent(Integer studentId, StudentDTO studentDTO) throws ResourceNotFoundException {
+    // Assign Courses to Particular Student
+    public void assignCoursesToStudent(Integer studentId, List<Integer> courseIds) throws ResourceNotFoundException {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
+
+        List<Course> validCourses = new ArrayList<>();
+
+        for (Integer courseId : courseIds) {
+            Course course = courseRepository.findById(courseId)
+                    .orElseThrow(() -> {
+                        return new ResourceNotFoundException(courseId);
+                    });
+            validCourses.add(course);
+        }
+
+        student.getCourses().addAll(validCourses);
+
+        studentRepository.save(student);
+    }
+
+    public ResponseEntity<Student> updateStudent(Integer studentId, UpdateStudentDTO updateStudentDTO) throws ResourceNotFoundException {
         Student existingStudent = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException(studentId));
-        Student updatedStudent = convertToEntity(studentDTO);
-        updatedStudent.setId(existingStudent.getId());
-        Student savedStudent = studentRepository.save(updatedStudent);
-        return ResponseEntity.ok(convertToDTO(savedStudent));
+//        Student updatedStudent = convertToEntity(studentDTO);
+//        updatedStudent.setId(existingStudent.getId());
+//        Student savedStudent = studentRepository.save(updatedStudent);
+//        return ResponseEntity.ok(convertToDTO(savedStudent));
+
+        studentMapper.updateStudentFromDTO(updateStudentDTO, existingStudent);
+        Student savedStudent = studentRepository.save(existingStudent);
+        return ResponseEntity.ok(savedStudent);
     }
 
     public Map<String, Boolean> deleteStudent(Integer studentId) throws ResourceNotFoundException {
@@ -87,6 +118,39 @@ public class StudentService {
         response.put("All Students records deleted", Boolean.TRUE);
         return response;
     }
+
+
+    // Address Related Services:
+    public StudentAddressDTO updateStudentWithAddress(Integer id, StudentAddressDTO studentAddressDTO) throws ResourceNotFoundException{
+
+        Student student = studentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(id));
+        List<Address> addressList = addressMapper.getEntityList(studentAddressDTO.getAddresses());
+        int flag = 0;
+
+        if(addressList != null){
+            for(Address address: addressList){
+                flag = 0;
+
+                for(Address address1 : student.getAddresses()){
+                    if(address1.getId().equals(address.getId())){
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(address.getId() != null && flag == 0){
+                    Integer errorId = address.getId();
+                    throw new ResourceNotFoundException(errorId); // For NNNNNNNNNNNNNNNNNNNNNNOOOOOOOOOOOOOOOOOOOOOWWWWWWWWWWWWWWWWW
+                }
+            }
+        }
+
+        studentMapper.updateStudentData(studentAddressDTO, student);
+        Student studentReturn = studentRepository.save(student);
+        StudentAddressDTO temp  = new StudentAddressDTO();
+        studentMapper.convertEntityToStudentAddressDTO(temp, studentReturn);
+        return temp;
+    }
+
 
     private StudentDTO convertToDTO(Student student) {
         return studentMapper.entityToDTO(student);

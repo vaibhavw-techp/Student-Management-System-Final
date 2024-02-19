@@ -1,20 +1,14 @@
 package com.project.StudentManagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.project.StudentManagement.entity.Course;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,6 +22,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq")
     @SequenceGenerator(name = "student_seq", sequenceName = "student_tbl_seq", allocationSize = 1)
+    @NotNull
     private Integer id;
 
 //    @Column(name="name")
@@ -38,7 +33,7 @@ public class Student {
     private String lastName;
 
     @Column(name = "academic_year")
-    @NotNull
+//    @NotNull
     private String year;
 
     @Column(name="department")
@@ -46,7 +41,7 @@ public class Student {
     private String dept;
     //    @Column(name = "Courses")
 
-    @ManyToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany( fetch = FetchType.LAZY, targetEntity = Course.class, cascade = CascadeType.ALL)
     @JoinTable(name = "student_course_table",
             joinColumns = {
                     @JoinColumn(name = "student_id")
@@ -54,8 +49,11 @@ public class Student {
             inverseJoinColumns = {
                     @JoinColumn(name = "course_id")
             })
-
-//    @JsonManagedReference
     private Set<Course> courses;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Address> addresses = new ArrayList<>();
+//    @JsonManagedReference
+
 
 }
